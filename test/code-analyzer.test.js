@@ -66,4 +66,9 @@ describe('Model',() => {
         assert.equal(model_for_test.get_tr_string(),
             '<tr><td>1</td><td>for statement</td><td></td><td>i < 5</td><td></td></tr>');});
 });
-
+describe('Catch unknown type', () =>{
+    it('Function with empty statement', () =>{
+        assert.deepEqual(viewCode(JSON.stringify(parseCode('function a()\n{return 1;};'))),
+            [new Model(1, 'function declaration','a','',''),
+                new Model(2, 'return statement','','','1')]);});
+});

@@ -22,7 +22,8 @@ let dic_function = {
     'IfStatement': parse_if_stmt ,
     'WhileStatement': parse_while_stmt,
     'ForStatement': parse_for_stmt,
-    'Program': parse_program
+    'Program': parse_program,
+
 };
 
 let dic_types = {
@@ -35,12 +36,13 @@ let dic_types = {
     'IfStatement': 'if statement' ,
     'WhileStatement': 'while statement',
     'ForStatement': 'for statement',
-}
+};
 
 
 const parseCode = (codeToParse) => {
     return esprima.parseScript(codeToParse, {loc: true});
 };
+
 
 function parse_literal(json_object) {
     let ans =  json_object.value;
@@ -139,14 +141,19 @@ function get_details(json_object) {
     if (json_object == null){
         return json_object;
     }
-    let type = json_object.type;
-    return dic_function[type](json_object);
+    try{
+        let type = json_object.type;
+        return dic_function[type](json_object);
+    }
+    catch (e) {
+        return null;
+    }
+
 }
 
 const viewCode = (parsedCode) => {
     list_model = [];
     let json_object = JSON.parse(parsedCode);
-    console.log(json_object.type);
     get_details(json_object);
     return list_model;
 };
